@@ -27,7 +27,12 @@ java.lang啊，今天就不说啦。然后我对Throwable的第一印象是什�
 这么牛B，不会是查克拉吧。首先是Object的backtrace,好像是什么牛B哄哄的本地方法代码要用到，好吧无
 视不管他，顺便提一句，他是有transient光环照耀着的，牛B吧。无视序列化效果，小弟拜服啦。
 
-	“我茶类，又他么不讲重点了，找抽啊”。好吧，接下来说个有用的把，detailMessage,恩，私有的，然后是String类型的东东。没有错，你所有传达给Throwable的话都是放在这里的。除了String.detailMessage,还有一个重要的组成部分stackTrace,传说中的异常堆栈。说到这，就不得不提StackTraceElement了，堆栈元素。我茶类，这货又是什么玩意，为什么我都不知道他的存在。其实大家应该是很熟悉而且经常性见到他的，只不过见到了不认识而已。每次StackTraceElement就是控制台输出的错误信息，而每一行的错误信息都是一个StackTraceElement对象。
+	“我茶类，又他么不讲重点了，找抽啊”。好吧，接下来说个有用的把，detailMessage,恩，私有的
+，然后是String类型的东东。没有错，你所有传达给Throwable的话都是放在这里的。        
+除了String.detailMessage,还有一个重要的组成部分stackTrace,传说中的异常堆栈。说到这，
+就不得不提StackTraceElement了，堆栈元素。我茶类，这货又是什么玩意，为什么我都不知道他的存在。
+其实大家应该是很熟悉而且经常性见到他的，只不过见到了不认识而已。每次StackTraceElement就是控制
+台输出的错误信息，而每一行的错误信息都是一个StackTraceElement对象。
     private String declaringClass;//抛出异常的类名    
     private String methodName;//抛出异常的方法名
     private String fileName;//抛出异常的java文件名
@@ -61,9 +66,11 @@ java.lang啊，今天就不说啦。然后我对Throwable的第一印象是什�
         this.lineNumber     = lineNumber;
     }
 
-恩，小金你明白了嘛，轩哥我是明白了，这货的作用就是存储了下异常信息，记录了当某个异常发生时，当时的类、方法、文件和行数的信息。懂了、懂了，小金明白了。
+恩，小金你明白了嘛，轩哥我是明白了，这货的作用就是存储了下异常信息，记录了当某个异常发生时，当
+时的类、方法、文件和行数的信息。懂了、懂了，小金明白了。
 
-那轩哥啊，小金还有个地方不明白，StackTraceElement不是把异常发生的相关信息都记录下来了，所以     Throable拥有他我也明白了，但为什么不是一个而是一组啊。
+那轩哥啊，小金还有个地方不明白，StackTraceElement不是把异常发生的相关信息都记录下来了，所
+以     Throable拥有他我也明白了，但为什么不是一个而是一组啊。
 让大家看下Throwable具体的属性拥：
 
      private transient Object backtrace;
@@ -71,7 +78,9 @@ java.lang啊，今天就不说啦。然后我对Throwable的第一印象是什�
      private StackTraceElement[] stackTrace;
      private Throwable cause = this;
 
-小金啊，你平时用异常的时候会不会向外抛出啊。会啊，轩哥。这就对了，只要你的异常转移了，那就会生成一个StackTraceElement对象，而从他内部的属性可以看得出来，转移的最小单位应该是方法，只要在方法间移动了，那么就会长生一个新的StackTraceElement对象，并且会保存在Throwable的stackTrace里面。哦，懂了，小金明白了。
+小金啊，你平时用异常的时候会不会向外抛出啊。会啊，轩哥。这就对了，只要你的异常转移了，那就会生
+成一个StackTraceElement对象，而从他内部的属性可以看得出来，转移的最小单位应该是方法，只要在方
+法间移动了，那么就会长生一个新的StackTraceElement对象，并且会保存在Throwable的stackTrace里面。哦，懂了，小金明白了。
 
 	哎，太晚了，轩哥要先睡觉了，今天就聊到这吧。
 
